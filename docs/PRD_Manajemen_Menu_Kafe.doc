@@ -1,0 +1,373 @@
+<html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:w='urn:schemas-microsoft-com:office:word' xmlns='http://www.w3.org/TR/REC-html40'>
+<head>
+<meta charset="utf-8">
+<title>Product Requirements Document (PRD) - REST API Manajemen Menu dan Inventaris Kafe</title>
+<!--[if gte mso 9]>
+<xml>
+<w:WordDocument>
+<w:View>Print</w:View>
+<w:Zoom>100</w:Zoom>
+<w:DoNotOptimizeForBrowser/>
+</w:WordDocument>
+</xml>
+<![endif]-->
+<style>
+@page {
+    size: A4;
+    margin: 2.54cm;
+}
+body {
+    font-family: 'Calibri', 'Segoe UI', Arial, sans-serif;
+    font-size: 11pt;
+    line-height: 1.6;
+    color: #2D3748;
+}
+h1 {
+    font-size: 22pt;
+    color: #1A365D;
+    border-bottom: 2pt solid #2B6CB0;
+    padding-bottom: 6pt;
+    margin-top: 24pt;
+    margin-bottom: 14pt;
+}
+h2 {
+    font-size: 15pt;
+    color: #2B6CB0;
+    margin-top: 18pt;
+    margin-bottom: 8pt;
+    border-bottom: 1pt solid #E2E8F0;
+    padding-bottom: 4pt;
+}
+h3 {
+    font-size: 12pt;
+    color: #2D3748;
+    margin-top: 14pt;
+    margin-bottom: 6pt;
+}
+p {
+    margin-top: 0;
+    margin-bottom: 8pt;
+}
+table {
+    border-collapse: collapse;
+    width: 100%;
+    margin-top: 10pt;
+    margin-bottom: 14pt;
+}
+th, td {
+    border: 1pt solid #CBD5E0;
+    padding: 6pt 10pt;
+    text-align: left;
+    font-size: 10pt;
+}
+th {
+    background-color: #EDF2F7;
+    font-weight: bold;
+    color: #1A202C;
+}
+tr:nth-child(even) {
+    background-color: #F7FAFC;
+}
+ul, ol {
+    margin-top: 0;
+    margin-bottom: 10pt;
+    padding-left: 20pt;
+}
+li {
+    margin-bottom: 4pt;
+}
+code {
+    font-family: 'Consolas', 'Courier New', monospace;
+    background-color: #EDF2F7;
+    padding: 2pt 4pt;
+    border-radius: 3pt;
+    font-size: 9.5pt;
+    color: #C53030;
+}
+pre {
+    font-family: 'Consolas', 'Courier New', monospace;
+    background-color: #F7FAFC;
+    border: 1pt solid #E2E8F0;
+    border-left: 3pt solid #3182CE;
+    padding: 8pt 12pt;
+    font-size: 9.5pt;
+    line-height: 1.4;
+    margin-top: 6pt;
+    margin-bottom: 12pt;
+}
+.badge {
+    display: inline-block;
+    padding: 2pt 6pt;
+    font-size: 8.5pt;
+    font-weight: bold;
+    background-color: #EBF8FF;
+    color: #2B6CB0;
+    border-radius: 3pt;
+    border: 1pt solid #BEE3F8;
+}
+hr {
+    border: none;
+    border-top: 1pt solid #E2E8F0;
+    margin: 18pt 0;
+}
+</style>
+</head>
+<body>
+
+<h1>Dokumen Kebutuhan Produk (Product Requirements Document - PRD)</h1>
+
+<h2>Kontrol Dokumen</h2>
+<table>
+  <tr>
+    <th width="30%">Properti</th>
+    <th width="70%">Nilai</th>
+  </tr>
+  <tr>
+    <td><strong>ID Dokumen</strong></td>
+    <td>PRD-BE-CAFE-001</td>
+  </tr>
+  <tr>
+    <td><strong>Judul Proyek</strong></td>
+    <td>RESTful API Manajemen Menu dan Inventaris Kafe Terintegrasi MongoDB</td>
+  </tr>
+  <tr>
+    <td><strong>Versi</strong></td>
+    <td>1.0.0</td>
+  </tr>
+  <tr>
+    <td><strong>Status</strong></td>
+    <td><span class="badge">Disetujui (Approved)</span></td>
+  </tr>
+  <tr>
+    <td><strong>Penulis</strong></td>
+    <td>Mentee Backend Engineering</td>
+  </tr>
+  <tr>
+    <td><strong>Institusi / Unit</strong></td>
+    <td>KSM Veterantech - Study Club Backend Basic UPNVJ 2026</td>
+  </tr>
+  <tr>
+    <td><strong>Target Rilis</strong></td>
+    <td>November 2026</td>
+  </tr>
+</table>
+
+<h3>Riwayat Perubahan Dokumen</h3>
+<table>
+  <tr>
+    <th width="15%">Versi</th>
+    <th width="20%">Tanggal</th>
+    <th width="25%">Penulis</th>
+    <th width="40%">Deskripsi Perubahan</th>
+  </tr>
+  <tr>
+    <td>0.1.0</td>
+    <td>2026-11-06</td>
+    <td>Mentee Backend Engineering</td>
+    <td>Draf awal spesifikasi berdasarkan prototipe array in-memory Tugas 1</td>
+  </tr>
+  <tr>
+    <td>1.0.0</td>
+    <td>2026-11-07</td>
+    <td>Mentee Backend Engineering</td>
+    <td>Finalisasi kebutuhan sistem produksi REST API, integrasi MongoDB, dan spesifikasi portofolio</td>
+  </tr>
+</table>
+
+<hr/>
+
+<h2>1. Ringkasan Eksekutif (Executive Summary)</h2>
+<p>
+Layanan RESTful API Manajemen Menu dan Inventaris Kafe adalah aplikasi backend berskala produksi yang dirancang untuk mengelola katalog produk makanan dan minuman, penetapan harga, kategorisasi, serta pemantauan stok bahan baku/produk jadi secara real-time.
+</p>
+<p>
+Sistem ini dikembangkan menggunakan Node.js dan Express.js sebagai fondasi server asinkron berkinerja tinggi, serta MongoDB sebagai database NoSQL dokumen untuk persistensi data permanen. Proyek ini merepresentasikan evolusi arsitektur dari prototipe lokal berbasis array (Tugas 1) menjadi layanan backend modular terstandarisasi yang siap diintegrasikan ke sistem kasir Point of Sale (POS), aplikasi pemesanan mobile, maupun dashboard inventaris internal.
+</p>
+
+<h2>2. Nilai Strategis untuk Portofolio dan Rekam Jejak Profesional (CV)</h2>
+<p>
+Proyek ini tidak hanya memenuhi kriteria tugas akademik, namun secara spesifik dirancang untuk mendemonstrasikan kompetensi rekayasa perangkat lunak backend standar industri:
+</p>
+<ol>
+  <li><strong>Arsitektur Modular MVC (Model-View-Controller)</strong>: Pemisahan tegas antara routing, kontrol logika bisnis, skema data, dan konfigurasi database untuk menjamin skalabilitas kode (<em>clean architecture</em>).</li>
+  <li><strong>Integritas dan Validasi Data Berlapis</strong>: Penerapan skema Mongoose ODM dengan aturan validasi ketat (tipe data, nilai batas minimum, enumerasi kategori, dan sanitasi format BSON ObjectId).</li>
+  <li><strong>Otomatisasi Logika Bisnis (<em>Business Logic Rule</em>)</strong>: Sinkronisasi otomatis antara kuantitas stok fisik dengan status keterjualan (<code>tersedia</code>), mencegah anomali data pesanan (<em>over-ordering</em>).</li>
+  <li><strong>Kepatuhan Protokol HTTP Semantik</strong>: Implementasi penuh seluruh metode HTTP (GET, POST, PUT, DELETE) serta penanganan status code representatif (200, 201, 400, 404, 500) dengan format respons amplop JSON (<em>Consistent Response Envelope</em>).</li>
+  <li><strong>Kesiapan Integrasi Antarmuka Kasir (<em>POS Integration Ready</em>)</strong>: Menyediakan endpoint katalog dan filter kategori yang siap dikonsumsi langsung oleh aplikasi frontend web/mobile.</li>
+</ol>
+
+<h2>3. Latar Belakang dan Analisis Masalah</h2>
+
+<h3>3.1 Kondisi Sistem Sebelumnya (Legacy State - Tugas 1)</h3>
+<p>
+Pada tahap awal pengembangan, sistem manajemen menu kafe diimplementasikan menggunakan struktur data array JavaScript in-memory (<code>menuCafe.push()</code>, <code>splice()</code>, <code>find()</code>). Meskipun efektif untuk pembuktian algoritma dasar, arsitektur ini memiliki kelemahan kritis:
+</p>
+<ul>
+  <li><strong>Volatilitas Data Tinggi</strong>: Seluruh perubahan data (penambahan menu baru, perubahan harga, pengurangan stok, dan penghapusan) hilang seketika saat proses Node.js dihentikan atau komputer dimatikan.</li>
+  <li><strong>Keterikatan Monolitik</strong>: Logika bisnis dan penyimpanan data menyatu dalam skrip lokal tanpa antarmuka jaringan, sehingga tidak dapat diakses oleh sistem eksternal.</li>
+  <li><strong>Absensi Standar Komunikasi</strong>: Tidak tersedianya kontrak komunikasi berbasis jaringan (HTTP) dan penanganan galat (<em>error handling</em>) terstandarisasi.</li>
+</ul>
+
+<h3>3.2 Kondisi Target (Target State - Final Project)</h3>
+<p>
+Sistem ditransformasikan menjadi REST API independen yang mengeksekusi operasi database asinkron ke MongoDB. Transaksi data terisolasi, data tersimpan permanen di media penyimpanan sekunder, dan antarmuka HTTP memungkinkan komunikasi lintas platform dengan aman dan deterministik.
+</p>
+
+<h2>4. Tujuan dan Sasaran Produk (Goals and Objectives)</h2>
+<ol>
+  <li><strong>Persistensi Data Permanen</strong>: Menjamin seluruh mutasi data (Create, Update, Delete) tersimpan secara permanen pada database MongoDB tanpa risiko kehilangan data akibat server restart.</li>
+  <li><strong>Standarisasi Kontrak Antarmuka (API Contract)</strong>: Menyediakan endpoint RESTful berbasis format pertukaran data JSON yang konsisten, aman, dan dapat diuji melalui Postman maupun Bruno.</li>
+  <li><strong>Resiliensi dan Penanganan Galat (<em>Error Resilience</em>)</strong>: Mengeliminasi risiko unhandled runtime exception dengan membungkus operasi asinkron dalam blok <code>try...catch</code> dan menghasilkan pesan galat yang informatif bagi pengembang antarmuka.</li>
+  <li><strong>Keterbacaan dan Kemudahan Perawatan Kode (<em>Maintainability</em>)</strong>: Membagi basis kode ke dalam struktur folder modular (<code>config/</code>, <code>models/</code>, <code>controllers/</code>, <code>routes/</code>, <code>index.js</code>).</li>
+</ol>
+
+<h2>5. Persona Pengguna</h2>
+
+<h3>Persona 1: Manajer Operasional &amp; Inventaris Kafe (Admin)</h3>
+<ul>
+  <li><strong>Peran</strong>: Pengelola rantai pasok dan katalog kafe.</li>
+  <li><strong>Tanggung Jawab</strong>: Mendaftarkan produk musiman baru, memperbarui penyesuaian harga jual, mencatat penambahan stok masuk, serta mengarsipkan menu yang tidak lagi diproduksi.</li>
+  <li><strong>Kebutuhan Utama</strong>: Endpoint mutasi data (POST, PUT, DELETE) yang memiliki validasi ketat terhadap input negatif atau data kosong.</li>
+</ul>
+
+<h3>Persona 2: Barista / Kasir Layanan POS</h3>
+<ul>
+  <li><strong>Peran</strong>: Staf garis depan yang melayani transaksi pelanggan.</li>
+  <li><strong>Tanggung Jawab</strong>: Melihat daftar menu yang sedang aktif, memfilter menu berdasarkan kategori (Kopi, Non-Kopi, Pastry, Makanan), dan memverifikasi ketersediaan stok produk secara real-time.</li>
+  <li><strong>Kebutuhan Utama</strong>: Endpoint baca (GET) dengan waktu respons cepat (&lt;200ms) dan akurasi indikator status ketersediaan barang (<code>tersedia: true/false</code>).</li>
+</ul>
+
+<h3>Persona 3: Sistem Klien Terintegrasi (Aplikasi Frontend / POS Terminal)</h3>
+<ul>
+  <li><strong>Peran</strong>: Aplikasi mesin kasir atau aplikasi mobile pemesanan.</li>
+  <li><strong>Kebutuhan Utama</strong>: Skema respons JSON yang seragam baik saat berhasil maupun gagal, serta kode status HTTP yang semantik untuk memudahkan penanganan kondisi pada sisi antarmuka pengguna.</li>
+</ul>
+
+<h2>6. Kebutuhan Pengguna dan Kriteria Penerimaan (User Stories &amp; Acceptance Criteria)</h2>
+
+<h3>US-01: Pendaftaran Menu Baru (Create)</h3>
+<p><strong>Sebagai</strong> Manajer Operasional Kafe,<br/>
+<strong>Saya ingin</strong> mendaftarkan produk menu baru beserta nama, kategori, harga satuan, dan kuantitas stok awal,<br/>
+<strong>Agar</strong> produk tersebut dapat segera masuk ke dalam daftar pesanan aktif di kasir.</p>
+<ul>
+  <li><strong>Kriteria Penerimaan</strong>:
+    <ul>
+      <li>Ketika payload JSON valid dikirimkan via <code>POST /api/menus</code>, sistem menyimpan dokumen ke MongoDB dan mengembalikan status code <code>201 Created</code>.</li>
+      <li>Sistem secara otomatis mengkalkulasi properti <code>tersedia</code> bernilai <code>true</code> apabila <code>stok &gt; 0</code>, atau <code>false</code> apabila <code>stok === 0</code>.</li>
+      <li>Jika nama kosong, kategori tidak sesuai pilihan, atau harga bernilai negatif, sistem menolak permintaan dengan status code <code>400 Bad Request</code> dan pesan validasi spesifik.</li>
+    </ul>
+  </li>
+</ul>
+
+<h3>US-02: Penelusuran dan Penyaringan Katalog Menu (Read All &amp; Filter)</h3>
+<p><strong>Sebagai</strong> Kasir POS,<br/>
+<strong>Saya ingin</strong> melihat seluruh katalog menu yang tersedia atau memfilternya berdasarkan kategori tertentu,<br/>
+<strong>Agar</strong> saya dapat menginformasikan pilihan menu yang relevan kepada pelanggan dengan cepat.</p>
+<ul>
+  <li><strong>Kriteria Penerimaan</strong>:
+    <ul>
+      <li>Permintaan <code>GET /api/menus</code> mengembalikan status code <code>200 OK</code> dengan array seluruh dokumen menu.</li>
+      <li>Permintaan dengan parameter kueri <code>GET /api/menus?kategori=Kopi</code> hanya mengembalikan menu yang memiliki kategori sesuai.</li>
+      <li>Jika database belum memiliki data, sistem mengembalikan status code <code>200 OK</code> dengan array kosong <code>[]</code> (bukan galat 404).</li>
+    </ul>
+  </li>
+</ul>
+
+<h3>US-03: Pencarian Detail Menu Berdasarkan ID (Read Single)</h3>
+<p><strong>Sebagai</strong> Kasir POS atau Sistem Klien,<br/>
+<strong>Saya ingin</strong> mengambil detail spesifikasi satu item menu menggunakan ID uniknya,<br/>
+<strong>Agar</strong> sistem dapat menampilkan informasi harga dan sisa stok terkini untuk satu barang tertentu.</p>
+<ul>
+  <li><strong>Kriteria Penerimaan</strong>:
+    <ul>
+      <li>Permintaan <code>GET /api/menus/:id</code> dengan ID hex 24-karakter yang valid dan terdaftar mengembalikan status code <code>200 OK</code>.</li>
+      <li>Jika format ID valid namun data tidak ditemukan, sistem mengembalikan status code <code>404 Not Found</code>.</li>
+      <li>Jika format ID tidak valid (bukan 24 karakter hex BSON), sistem mengembalikan status code <code>400 Bad Request</code>.</li>
+    </ul>
+  </li>
+</ul>
+
+<h3>US-04: Pembaruan Data Menu dan Penyesuaian Stok (Update)</h3>
+<p><strong>Sebagai</strong> Manajer Operasional Kafe,<br/>
+<strong>Saya ingin</strong> mengubah data harga, kategori, atau jumlah stok fisik suatu menu yang sudah ada,<br/>
+<strong>Agar</strong> data pada sistem kasir selalu selaras dengan kondisi fisik di lapangan.</p>
+<ul>
+  <li><strong>Kriteria Penerimaan</strong>:
+    <ul>
+      <li>Permintaan <code>PUT /api/menus/:id</code> dengan payload perubahan memperbarui data di MongoDB dan mengembalikan status code <code>200 OK</code>.</li>
+      <li>Jika stok diperbarui menjadi <code>0</code>, sistem otomatis mengubah status <code>tersedia</code> menjadi <code>false</code>.</li>
+      <li>Jika stok ditambah dari <code>0</code> menjadi lebih dari <code>0</code>, sistem otomatis mengaktifkan status <code>tersedia</code> menjadi <code>true</code>.</li>
+    </ul>
+  </li>
+</ul>
+
+<h3>US-05: Penghapusan Menu dari Katalog (Delete)</h3>
+<p><strong>Sebagai</strong> Manajer Operasional Kafe,<br/>
+<strong>Saya ingin</strong> menghapus menu yang sudah tidak lagi dijual dari sistem,<br/>
+<strong>Agar</strong> katalog menu kafe tetap rapi dan tidak membingungkan kasir.</p>
+<ul>
+  <li><strong>Kriteria Penerimaan</strong>:
+    <ul>
+      <li>Permintaan <code>DELETE /api/menus/:id</code> menghapus dokumen terkait secara permanen dari MongoDB dan mengembalikan status code <code>200 OK</code>.</li>
+      <li>Pencarian kembali terhadap ID yang telah dihapus harus menghasilkan status code <code>404 Not Found</code>.</li>
+    </ul>
+  </li>
+</ul>
+
+<h2>7. Batasan Ruang Lingkup (Scope Boundaries)</h2>
+
+<h3>7.1 Dalam Ruang Lingkup (In-Scope)</h3>
+<ol>
+  <li>Pembangunan 5 endpoint RESTful lengkap (POST, GET All, GET Single, PUT, DELETE).</li>
+  <li>Skema database MongoDB dengan Mongoose ODM mencakup <code>nama</code>, <code>kategori</code>, <code>harga</code>, <code>stok</code>, <code>tersedia</code>, dan audit timestamp (<code>createdAt</code>, <code>updatedAt</code>).</li>
+  <li>Penyaringan data dinamis berdasarkan kategori melalui query string URL.</li>
+  <li>Otomatisasi status keterjualan produk berdasarkan kuantitas stok.</li>
+  <li>Penanganan galat global dengan struktur respons amplop JSON seragam.</li>
+  <li>Dokumentasi teknis komprehensif, arsitektur folder modular, serta protokol pengujian via Postman dan Bruno.</li>
+</ol>
+
+<h3>7.2 Di Luar Ruang Lingkup (Future Roadmap - Fase 2)</h3>
+<ol>
+  <li>Modul otentikasi dan otorisasi pengguna berbasis JSON Web Token (JWT) untuk pemisahan hak akses admin dan kasir.</li>
+  <li>Integrasi gerbang pembayaran digital (<em>payment gateway</em>) dan pencetakan struk transaksi.</li>
+  <li>Fitur unggah file gambar menu ke media penyimpanan awan (<em>cloud object storage</em>).</li>
+</ol>
+
+<h2>8. Kebutuhan Non-Fungsional (Non-Functional Requirements)</h2>
+<table>
+  <tr>
+    <th width="25%">Parameter</th>
+    <th width="75%">Spesifikasi</th>
+  </tr>
+  <tr>
+    <td><strong>Performa (Latency)</strong></td>
+    <td>Waktu eksekusi kueri API rata-rata di bawah 150ms pada lingkungan pengujian lokal.</td>
+  </tr>
+  <tr>
+    <td><strong>Ketersediaan &amp; Keandalan</strong></td>
+    <td>Server mampu memulihkan kegagalan jaringan database tanpa mengalami fatal crash runtime.</td>
+  </tr>
+  <tr>
+    <td><strong>Keterbacaan Kode</strong></td>
+    <td>Menerapkan standar penulisan kode JavaScript modern (ES6 Modules/CommonJS), penamaan variabel intuitif, dan pemisahan modul yang terisolasi.</td>
+  </tr>
+  <tr>
+    <td><strong>Keamanan Data</strong></td>
+    <td>Mencegah injeksi parameter liar ke dalam dokumen database melalui fitur <code>strict: true</code> pada skema Mongoose.</td>
+  </tr>
+  <tr>
+    <td><strong>Konfigurasi Lingkungan</strong></td>
+    <td>Seluruh kredensial sensitif (port server, URI koneksi database MongoDB) dikelola secara terisolasi melalui file <code>.env</code>.</td>
+  </tr>
+</table>
+
+<h2>9. Metrik Keberhasilan Proyek</h2>
+<ul>
+  <li><strong>Kesesuaian Fungsional 100%</strong>: Kelima operasi CRUD berjalan tanpa galat dan terverifikasi di Postman/Bruno.</li>
+  <li><strong>Persistensi Data Mutlak</strong>: Pembuktian bahwa data yang ditambah, diubah, atau dihapus tetap konsisten setelah proses server di-restart.</li>
+  <li><strong>Kepatuhan Terhadap Panduan Tugas</strong>: Memenuhi seluruh rubrik penilaian Final Project KSM Veterantech UPNVJ 2026.</li>
+  <li><strong>Kesiapan Portofolio Publik</strong>: Repositori GitHub publik yang bersih, memiliki dokumentasi README bebas slop, dokumen PRD/FRD resmi, dan siap dipresentasikan di hadapan mentor dan recruiter.</li>
+</ul>
+
+</body>
+</html>

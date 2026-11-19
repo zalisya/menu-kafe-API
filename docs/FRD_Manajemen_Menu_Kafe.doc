@@ -1,0 +1,688 @@
+<html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:w='urn:schemas-microsoft-com:office:word' xmlns='http://www.w3.org/TR/REC-html40'>
+<head>
+<meta charset="utf-8">
+<title>Functional Requirements Document (FRD) - REST API Manajemen Menu dan Inventaris Kafe</title>
+<!--[if gte mso 9]>
+<xml>
+<w:WordDocument>
+<w:View>Print</w:View>
+<w:Zoom>100</w:Zoom>
+<w:DoNotOptimizeForBrowser/>
+</w:WordDocument>
+</xml>
+<![endif]-->
+<style>
+@page {
+    size: A4;
+    margin: 2.54cm;
+}
+body {
+    font-family: 'Calibri', 'Segoe UI', Arial, sans-serif;
+    font-size: 11pt;
+    line-height: 1.6;
+    color: #2D3748;
+}
+h1 {
+    font-size: 22pt;
+    color: #1A365D;
+    border-bottom: 2pt solid #2B6CB0;
+    padding-bottom: 6pt;
+    margin-top: 24pt;
+    margin-bottom: 14pt;
+}
+h2 {
+    font-size: 15pt;
+    color: #2B6CB0;
+    margin-top: 18pt;
+    margin-bottom: 8pt;
+    border-bottom: 1pt solid #E2E8F0;
+    padding-bottom: 4pt;
+}
+h3 {
+    font-size: 12pt;
+    color: #2D3748;
+    margin-top: 14pt;
+    margin-bottom: 6pt;
+}
+p {
+    margin-top: 0;
+    margin-bottom: 8pt;
+}
+table {
+    border-collapse: collapse;
+    width: 100%;
+    margin-top: 10pt;
+    margin-bottom: 14pt;
+}
+th, td {
+    border: 1pt solid #CBD5E0;
+    padding: 6pt 10pt;
+    text-align: left;
+    font-size: 10pt;
+}
+th {
+    background-color: #EDF2F7;
+    font-weight: bold;
+    color: #1A202C;
+}
+tr:nth-child(even) {
+    background-color: #F7FAFC;
+}
+ul, ol {
+    margin-top: 0;
+    margin-bottom: 10pt;
+    padding-left: 20pt;
+}
+li {
+    margin-bottom: 4pt;
+}
+code {
+    font-family: 'Consolas', 'Courier New', monospace;
+    background-color: #EDF2F7;
+    padding: 2pt 4pt;
+    border-radius: 3pt;
+    font-size: 9.5pt;
+    color: #C53030;
+}
+pre {
+    font-family: 'Consolas', 'Courier New', monospace;
+    background-color: #F7FAFC;
+    border: 1pt solid #E2E8F0;
+    border-left: 3pt solid #3182CE;
+    padding: 8pt 12pt;
+    font-size: 9.5pt;
+    line-height: 1.4;
+    margin-top: 6pt;
+    margin-bottom: 12pt;
+}
+.badge {
+    display: inline-block;
+    padding: 2pt 6pt;
+    font-size: 8.5pt;
+    font-weight: bold;
+    background-color: #EBF8FF;
+    color: #2B6CB0;
+    border-radius: 3pt;
+    border: 1pt solid #BEE3F8;
+}
+hr {
+    border: none;
+    border-top: 1pt solid #E2E8F0;
+    margin: 18pt 0;
+}
+</style>
+</head>
+<body>
+
+<h1>Dokumen Spesifikasi Kebutuhan Fungsional (Functional Requirements Document - FRD)</h1>
+
+<h2>Kontrol Dokumen</h2>
+<table>
+  <tr>
+    <th width="30%">Properti</th>
+    <th width="70%">Nilai</th>
+  </tr>
+  <tr>
+    <td><strong>ID Dokumen</strong></td>
+    <td>FRD-BE-CAFE-001</td>
+  </tr>
+  <tr>
+    <td><strong>Judul Proyek</strong></td>
+    <td>RESTful API Manajemen Menu dan Inventaris Kafe Terintegrasi MongoDB</td>
+  </tr>
+  <tr>
+    <td><strong>Versi</strong></td>
+    <td>1.0.0</td>
+  </tr>
+  <tr>
+    <td><strong>Status</strong></td>
+    <td><span class="badge">Disetujui (Approved)</span></td>
+  </tr>
+  <tr>
+    <td><strong>Penulis</strong></td>
+    <td>Mentee Backend Engineering</td>
+  </tr>
+  <tr>
+    <td><strong>Institusi / Unit</strong></td>
+    <td>KSM Veterantech - Study Club Backend Basic UPNVJ 2026</td>
+  </tr>
+  <tr>
+    <td><strong>Target Rilis</strong></td>
+    <td>November 2026</td>
+  </tr>
+</table>
+
+<h3>Riwayat Perubahan Dokumen</h3>
+<table>
+  <tr>
+    <th width="15%">Versi</th>
+    <th width="20%">Tanggal</th>
+    <th width="25%">Penulis</th>
+    <th width="40%">Deskripsi Perubahan</th>
+  </tr>
+  <tr>
+    <td>0.1.0</td>
+    <td>2026-11-06</td>
+    <td>Mentee Backend Engineering</td>
+    <td>Draf awal spesifikasi teknis dan pemetaan endpoint</td>
+  </tr>
+  <tr>
+    <td>1.0.0</td>
+    <td>2026-11-07</td>
+    <td>Mentee Backend Engineering</td>
+    <td>Finalisasi kontrak API, kamus data BSON, validasi skema Mongoose, dan protokol pengujian</td>
+  </tr>
+</table>
+
+<hr/>
+
+<h2>1. Arsitektur Sistem dan Struktur Komponen</h2>
+
+<h3>1.1 Diagram Arsitektur Perangkat Lunak</h3>
+<p>
+Sistem mengadopsi pola arsitektur berlapis Model-Controller-Route (MVC) yang berjalan di atas runtime Node.js dan framework Express.js. Komunikasi antar layer bersifat non-blocking menggunakan mekanisme asinkron bawaan JavaScript (<code>async/await</code>).
+</p>
+
+<pre>
++-------------------------------------------------------------+
+|                      Client Layer                           |
+|             (Bruno / Postman / POS Terminals)               |
++-------------------------------------------------------------+
+                              |
+                     HTTP Request / JSON
+                              |
++-------------------------------------------------------------+
+|                    Application Server                       |
+|                                                             |
+|   +-----------------------------------------------------+   |
+|   | Entrypoint (index.js)                               |   |
+|   | - Inisialisasi Middleware (express.json, cors)      |   |
+|   | - Mounting Rute Global (/api/menus)                 |   |
+|   +-----------------------------------------------------+   |
+|                              |                              |
+|   +-----------------------------------------------------+   |
+|   | Routing Layer (routes/menuRoutes.js)                |   |
+|   | - Pemetaan metode HTTP &amp; endpoint URL ke Controller |   |
+|   +-----------------------------------------------------+   |
+|                              |                              |
+|   +-----------------------------------------------------+   |
+|   | Controller Layer (controllers/menuController.js)    |   |
+|   | - Logika bisnis, sanitasi input, validasi           |   |
+|   | - Serialisasi respons amplop JSON                   |   |
+|   | - Error handling terpusat (try...catch)             |   |
+|   +-----------------------------------------------------+   |
+|                              |                              |
+|   +-----------------------------------------------------+   |
+|   | Model Layer (models/Menu.js)                        |   |
+|   | - Definisi skema data, tipe data, aturan Mongoose   |   |
+|   +-----------------------------------------------------+   |
+|                              |                              |
+|   +-----------------------------------------------------+   |
+|   | Configuration Layer (config/db.js)                  |   |
+|   | - Manajemen koneksi pool database MongoDB           |   |
+|   +-----------------------------------------------------+   |
++-------------------------------------------------------------+
+                              |
+                    Database Wire Protocol
+                              |
++-------------------------------------------------------------+
+|                      Persistence Layer                      |
+|                  (MongoDB Server Instance)                  |
++-------------------------------------------------------------+
+</pre>
+
+<h3>1.2 Struktur Folder Modular</h3>
+<ul>
+  <li><code>config/db.js</code>: Modul inisialisasi koneksi ke instance MongoDB menggunakan Mongoose, dilengkapi penanganan error koneksi.</li>
+  <li><code>models/Menu.js</code>: Skema Mongoose yang mengunci struktur koleksi <code>menus</code> beserta aturan validasi field.</li>
+  <li><code>controllers/menuController.js</code>: Kumpulan fungsi handler asinkron yang memproses payload request, menjalankan kueri database, menerapkan aturan bisnis, dan mengembalikan respons HTTP.</li>
+  <li><code>routes/menuRoutes.js</code>: Definisi rute Express yang menghubungkan HTTP verbs ke fungsi controller yang bersesuaian.</li>
+  <li><code>index.js</code>: Titik awal eksekusi (<em>bootstrap</em>) server Express, pendaftaran middleware, dan pembukaan port listener.</li>
+</ul>
+
+<h2>2. Kamus Data dan Spesifikasi Skema Database</h2>
+
+<h3>2.1 Koleksi: <code>menus</code></h3>
+<table>
+  <tr>
+    <th>Nama Field</th>
+    <th>Tipe Data BSON</th>
+    <th>Wajib (Required)</th>
+    <th>Nilai Default</th>
+    <th>Batasan &amp; Aturan Validasi</th>
+    <th>Deskripsi Bisnis</th>
+  </tr>
+  <tr>
+    <td><code>_id</code></td>
+    <td>ObjectId</td>
+    <td>Sistem</td>
+    <td>Auto-generated</td>
+    <td>24-karakter string heksadesimal</td>
+    <td>Kunci primer unik dokumen</td>
+  </tr>
+  <tr>
+    <td><code>nama</code></td>
+    <td>String</td>
+    <td>Ya</td>
+    <td>Tidak ada</td>
+    <td><code>trim: true</code>, <code>minlength: 2</code>, <code>maxlength: 100</code></td>
+    <td>Nama resmi menu makanan/minuman</td>
+  </tr>
+  <tr>
+    <td><code>kategori</code></td>
+    <td>String</td>
+    <td>Ya</td>
+    <td>Tidak ada</td>
+    <td>Enum: <code>["Kopi", "Non-Kopi", "Pastry", "Makanan"]</code></td>
+    <td>Kategori kelompok produk di katalog</td>
+  </tr>
+  <tr>
+    <td><code>harga</code></td>
+    <td>Number</td>
+    <td>Ya</td>
+    <td>Tidak ada</td>
+    <td><code>min: 0</code></td>
+    <td>Harga jual satuan dalam satuan Rupiah</td>
+  </tr>
+  <tr>
+    <td><code>stok</code></td>
+    <td>Number</td>
+    <td>Ya</td>
+    <td><code>0</code></td>
+    <td><code>min: 0</code>, bilangan bulat (<em>integer</em>)</td>
+    <td>Jumlah sisa stok fisik yang tersedia</td>
+  </tr>
+  <tr>
+    <td><code>tersedia</code></td>
+    <td>Boolean</td>
+    <td>Tidak</td>
+    <td>Dinamis</td>
+    <td>Otomatis <code>true</code> jika <code>stok &gt; 0</code>, <code>false</code> jika <code>stok = 0</code></td>
+    <td>Indikator menu dapat dipesan atau habis</td>
+  </tr>
+  <tr>
+    <td><code>createdAt</code></td>
+    <td>Date</td>
+    <td>Sistem</td>
+    <td>Auto-generated</td>
+    <td>ISO 8601 UTC timestamp</td>
+    <td>Waktu pembuatan dokumen pertama kali</td>
+  </tr>
+  <tr>
+    <td><code>updatedAt</code></td>
+    <td>Date</td>
+    <td>Sistem</td>
+    <td>Auto-generated</td>
+    <td>ISO 8601 UTC timestamp</td>
+    <td>Waktu pembaruan data terakhir kali</td>
+  </tr>
+</table>
+
+<h2>3. Logika Bisnis dan Aturan Pemrosesan (Business Rules)</h2>
+
+<h3>BR-01: Otomatisasi Status Ketersediaan (<code>tersedia</code>)</h3>
+<ul>
+  <li>Sistem secara dinamis menghitung nilai <code>tersedia</code> pada saat pembuatan maupun pembaruan data menu.</li>
+  <li>Jika nilai <code>stok === 0</code>, nilai <code>tersedia</code> wajib bernilai <code>false</code>.</li>
+  <li>Jika nilai <code>stok &gt; 0</code>, nilai <code>tersedia</code> wajib bernilai <code>true</code>.</li>
+  <li>Apabila klien mengirimkan nilai <code>tersedia</code> secara eksplisit yang bertentangan dengan jumlah <code>stok</code>, sistem akan memprioritaskan kalkulasi berbasis <code>stok</code> untuk mencegah inkonsistensi data inventaris.</li>
+</ul>
+
+<h3>BR-02: Pencegahan Nilai Numerik Negatif</h3>
+<ul>
+  <li>Field <code>harga</code> dan <code>stok</code> tidak boleh bernilai negatif (&lt; 0).</li>
+  <li>Apabila klien mengirimkan payload dengan angka negatif, server wajib membatalkan pemrosesan dan mengembalikan HTTP status <code>400 Bad Request</code>.</li>
+</ul>
+
+<h3>BR-03: Validasi Format BSON ObjectId</h3>
+<ul>
+  <li>Seluruh endpoint yang menerima parameter URL <code>:id</code> wajib memvalidasi apakah string parameter tersebut memenuhi format 24-karakter heksadesimal MongoDB ObjectId sebelum memanggil kueri database.</li>
+  <li>ID yang tidak valid wajib ditolak dengan HTTP status <code>400 Bad Request</code> guna mencegah timbulnya unhandled <code>CastError</code>.</li>
+</ul>
+
+<h2>4. Spesifikasi Kontrak Antarmuka API (Endpoints)</h2>
+<p><strong>Base URL</strong>: <code>http://localhost:5000/api/menus</code></p>
+
+<h3>4.1 Tambah Menu Baru (POST)</h3>
+<p>Menambahkan dan menyimpan dokumen menu baru ke dalam koleksi MongoDB.</p>
+<ul>
+  <li><strong>Metode</strong>: <code>POST</code></li>
+  <li><strong>Endpoint</strong>: <code>/api/menus</code></li>
+  <li><strong>Header Permintaan</strong>: <code>Content-Type: application/json</code></li>
+</ul>
+
+<h4>Contoh Payload Permintaan (Request Body)</h4>
+<pre>
+{
+  "nama": "Kopi Susu Gula Aren",
+  "kategori": "Kopi",
+  "harga": 22000,
+  "stok": 25
+}
+</pre>
+
+<h4>Respons Berhasil (HTTP 201 Created)</h4>
+<pre>
+{
+  "success": true,
+  "message": "Menu berhasil ditambahkan",
+  "data": {
+    "_id": "672c918a3d4f5e6a7b8c9d01",
+    "nama": "Kopi Susu Gula Aren",
+    "kategori": "Kopi",
+    "harga": 22000,
+    "stok": 25,
+    "tersedia": true,
+    "createdAt": "2026-11-07T03:00:00.000Z",
+    "updatedAt": "2026-11-07T03:00:00.000Z",
+    "__v": 0
+  }
+}
+</pre>
+
+<h4>Respons Galat Validasi (HTTP 400 Bad Request)</h4>
+<pre>
+{
+  "success": false,
+  "message": "Validasi gagal: Nama, kategori, harga, dan stok wajib diisi dengan benar"
+}
+</pre>
+
+<hr/>
+
+<h3>4.2 Tampilkan Seluruh Menu dan Filter Kategori (GET)</h3>
+<p>Mengambil daftar menu yang tersimpan, dengan dukungan filter kategori melalui parameter kueri URL.</p>
+<ul>
+  <li><strong>Metode</strong>: <code>GET</code></li>
+  <li><strong>Endpoint</strong>: <code>/api/menus</code></li>
+  <li><strong>Query Parameters</strong>: <code>kategori</code> (Opsional: <code>Kopi</code>, <code>Non-Kopi</code>, <code>Pastry</code>, <code>Makanan</code>). Contoh: <code>/api/menus?kategori=Kopi</code></li>
+</ul>
+
+<h4>Respons Berhasil (HTTP 200 OK)</h4>
+<pre>
+{
+  "success": true,
+  "count": 2,
+  "data": [
+    {
+      "_id": "672c918a3d4f5e6a7b8c9d01",
+      "nama": "Kopi Susu Gula Aren",
+      "kategori": "Kopi",
+      "harga": 22000,
+      "stok": 25,
+      "tersedia": true,
+      "createdAt": "2026-11-07T03:00:00.000Z",
+      "updatedAt": "2026-11-07T03:00:00.000Z"
+    },
+    {
+      "_id": "672c918a3d4f5e6a7b8c9d02",
+      "nama": "French Fries",
+      "kategori": "Makanan",
+      "harga": 20000,
+      "stok": 0,
+      "tersedia": false,
+      "createdAt": "2026-11-07T03:05:00.000Z",
+      "updatedAt": "2026-11-07T03:05:00.000Z"
+    }
+  ]
+}
+</pre>
+
+<hr/>
+
+<h3>4.3 Tampilkan Detail Menu Berdasarkan ID (GET)</h3>
+<p>Mengambil informasi spesifik satu item menu berdasarkan kunci primer ID dokumen.</p>
+<ul>
+  <li><strong>Metode</strong>: <code>GET</code></li>
+  <li><strong>Endpoint</strong>: <code>/api/menus/:id</code></li>
+  <li><strong>Parameter URL</strong>: <code>id</code> (String, Wajib) - 24 karakter hex MongoDB ObjectId.</li>
+</ul>
+
+<h4>Respons Berhasil (HTTP 200 OK)</h4>
+<pre>
+{
+  "success": true,
+  "data": {
+    "_id": "672c918a3d4f5e6a7b8c9d01",
+    "nama": "Kopi Susu Gula Aren",
+    "kategori": "Kopi",
+    "harga": 22000,
+    "stok": 25,
+    "tersedia": true
+  }
+}
+</pre>
+
+<h4>Respons Data Tidak Ditemukan (HTTP 404 Not Found)</h4>
+<pre>
+{
+  "success": false,
+  "message": "Menu dengan ID 672c918a3d4f5e6a7b8c9d99 tidak ditemukan"
+}
+</pre>
+
+<hr/>
+
+<h3>4.4 Perbarui Data Menu (PUT)</h3>
+<p>Memperbarui informasi harga, kategori, atau jumlah stok pada menu yang sudah ada.</p>
+<ul>
+  <li><strong>Metode</strong>: <code>PUT</code></li>
+  <li><strong>Endpoint</strong>: <code>/api/menus/:id</code></li>
+  <li><strong>Header Permintaan</strong>: <code>Content-Type: application/json</code></li>
+</ul>
+
+<h4>Contoh Payload Permintaan (Request Body)</h4>
+<pre>
+{
+  "harga": 24000,
+  "stok": 0
+}
+</pre>
+
+<h4>Respons Berhasil (HTTP 200 OK)</h4>
+<pre>
+{
+  "success": true,
+  "message": "Menu berhasil diperbarui",
+  "data": {
+    "_id": "672c918a3d4f5e6a7b8c9d01",
+    "nama": "Kopi Susu Gula Aren",
+    "kategori": "Kopi",
+    "harga": 24000,
+    "stok": 0,
+    "tersedia": false,
+    "updatedAt": "2026-11-07T03:15:00.000Z"
+  }
+}
+</pre>
+
+<h4>Respons ID Tidak Ditemukan (HTTP 404 Not Found)</h4>
+<pre>
+{
+  "success": false,
+  "message": "Menu dengan ID 672c918a3d4f5e6a7b8c9d99 tidak ditemukan"
+}
+</pre>
+
+<hr/>
+
+<h3>4.5 Hapus Menu (DELETE)</h3>
+<p>Menghapus dokumen menu secara permanen dari database MongoDB.</p>
+<ul>
+  <li><strong>Metode</strong>: <code>DELETE</code></li>
+  <li><strong>Endpoint</strong>: <code>/api/menus/:id</code></li>
+</ul>
+
+<h4>Respons Berhasil (HTTP 200 OK)</h4>
+<pre>
+{
+  "success": true,
+  "message": "Menu berhasil dihapus dari database",
+  "data": {
+    "_id": "672c918a3d4f5e6a7b8c9d01",
+    "nama": "Kopi Susu Gula Aren"
+  }
+}
+</pre>
+
+<h4>Respons ID Tidak Ditemukan (HTTP 404 Not Found)</h4>
+<pre>
+{
+  "success": false,
+  "message": "Menu dengan ID 672c918a3d4f5e6a7b8c9d99 tidak ditemukan"
+}
+</pre>
+
+<hr/>
+
+<h2>5. Strategi Penanganan Galat Terstandarisasi (Standardized Error Handling)</h2>
+<p>
+Seluruh logika asinkron pada controller dibungkus dalam blok <code>try...catch</code>. Format balasan galat selalu seragam mengikuti format amplop JSON berikut:
+</p>
+
+<pre>
+{
+  "success": false,
+  "message": "Pesan deskriptif penyebab kegagalan"
+}
+</pre>
+
+<h3>Tabel Pemetaan Kode Status HTTP</h3>
+<table>
+  <tr>
+    <th>Skenario Operasi</th>
+    <th>Kode Status HTTP</th>
+    <th>Keterangan Standar</th>
+  </tr>
+  <tr>
+    <td>Pengambilan data menu sukses</td>
+    <td><code>200 OK</code></td>
+    <td>Data berhasil disajikan</td>
+  </tr>
+  <tr>
+    <td>Pembaruan data menu sukses</td>
+    <td><code>200 OK</code></td>
+    <td>Dokumen berhasil diupdate</td>
+  </tr>
+  <tr>
+    <td>Penghapusan menu sukses</td>
+    <td><code>200 OK</code></td>
+    <td>Dokumen berhasil dihapus</td>
+  </tr>
+  <tr>
+    <td>Pembuatan menu baru sukses</td>
+    <td><code>201 Created</code></td>
+    <td>Dokumen baru tersimpan di database</td>
+  </tr>
+  <tr>
+    <td>Input tidak valid (harga negatif, nama kosong)</td>
+    <td><code>400 Bad Request</code></td>
+    <td>Pelanggaran validasi skema</td>
+  </tr>
+  <tr>
+    <td>Format ObjectId tidak valid</td>
+    <td><code>400 Bad Request</code></td>
+    <td>Format string ID bukan 24 karakter hex</td>
+  </tr>
+  <tr>
+    <td>ID menu tidak ditemukan dalam koleksi</td>
+    <td><code>404 Not Found</code></td>
+    <td>Sumber daya tidak ada di database</td>
+  </tr>
+  <tr>
+    <td>Kegagalan koneksi database / crash server</td>
+    <td><code>500 Internal Server Error</code></td>
+    <td>Galat internal pada level server</td>
+  </tr>
+</table>
+
+<h2>6. Protokol Pengujian Penerimaan (Acceptance Testing Matrix)</h2>
+<table>
+  <tr>
+    <th>ID Tes</th>
+    <th>Metode HTTP</th>
+    <th>URL Endpoint</th>
+    <th>Deskripsi Pengujian</th>
+    <th>Hasil yang Diharapkan</th>
+  </tr>
+  <tr>
+    <td>TC-01</td>
+    <td><code>POST</code></td>
+    <td><code>/api/menus</code></td>
+    <td>Membuat menu dengan payload lengkap valid</td>
+    <td><code>201 Created</code>, data tersimpan di MongoDB</td>
+  </tr>
+  <tr>
+    <td>TC-02</td>
+    <td><code>POST</code></td>
+    <td><code>/api/menus</code></td>
+    <td>Membuat menu dengan harga negatif</td>
+    <td><code>400 Bad Request</code>, pesan validasi muncul</td>
+  </tr>
+  <tr>
+    <td>TC-03</td>
+    <td><code>POST</code></td>
+    <td><code>/api/menus</code></td>
+    <td>Membuat menu dengan kategori di luar enum</td>
+    <td><code>400 Bad Request</code>, ditolak Mongoose</td>
+  </tr>
+  <tr>
+    <td>TC-04</td>
+    <td><code>GET</code></td>
+    <td><code>/api/menus</code></td>
+    <td>Mengambil seluruh katalog menu</td>
+    <td><code>200 OK</code>, mengembalikan array data</td>
+  </tr>
+  <tr>
+    <td>TC-05</td>
+    <td><code>GET</code></td>
+    <td><code>/api/menus?kategori=Kopi</code></td>
+    <td>Memfilter menu khusus kategori Kopi</td>
+    <td><code>200 OK</code>, hanya data Kopi yang tampil</td>
+  </tr>
+  <tr>
+    <td>TC-06</td>
+    <td><code>GET</code></td>
+    <td><code>/api/menus/:id</code></td>
+    <td>Mengambil menu dengan ID valid yang ada</td>
+    <td><code>200 OK</code>, mengembalikan objek menu</td>
+  </tr>
+  <tr>
+    <td>TC-07</td>
+    <td><code>GET</code></td>
+    <td><code>/api/menus/:id</code></td>
+    <td>Mengambil menu dengan ID valid yang tidak ada</td>
+    <td><code>404 Not Found</code></td>
+  </tr>
+  <tr>
+    <td>TC-08</td>
+    <td><code>GET</code></td>
+    <td><code>/api/menus/:id</code></td>
+    <td>Mengambil menu dengan format ID salah</td>
+    <td><code>400 Bad Request</code></td>
+  </tr>
+  <tr>
+    <td>TC-09</td>
+    <td><code>PUT</code></td>
+    <td><code>/api/menus/:id</code></td>
+    <td>Mengubah stok menjadi 0</td>
+    <td><code>200 OK</code>, status <code>tersedia</code> otomatis <code>false</code></td>
+  </tr>
+  <tr>
+    <td>TC-10</td>
+    <td><code>DELETE</code></td>
+    <td><code>/api/menus/:id</code></td>
+    <td>Menghapus menu berdasarkan ID</td>
+    <td><code>200 OK</code>, dokumen terhapus</td>
+  </tr>
+  <tr>
+    <td>TC-11</td>
+    <td><code>GET</code></td>
+    <td><code>/api/menus/:id</code></td>
+    <td>Memeriksa kembali ID yang baru saja dihapus</td>
+    <td><code>404 Not Found</code>, membuktikan data telah terhapus</td>
+  </tr>
+</table>
+
+</body>
+</html>
