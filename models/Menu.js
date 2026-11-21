@@ -1,19 +1,19 @@
 // models/Menu.js - Layer Model
 const mongoose = require('mongoose');
 
-// Bikin aturan cetakan data (Schema) untuk Menu Kafe[cite: 4]
+// Bikin aturan cetakan data (Schema) untuk Menu Kafe
 const menuSchema = new mongoose.Schema({
     nama: {
         type: String,
         required: true,
         trim: true,
         minlength: 2,
-        maxlength: 100 // Sesuai FRD tabel 2.1[cite: 4]
+        maxlength: 100 
     },
     kategori: {
         type: String,
         required: true,
-        enum: ['Kopi', 'Non-Kopi', 'Pastry', 'Makanan'] // Hanya nerima nilai dari daftar ini[cite: 4]
+        enum: ['Kopi', 'Non-Kopi', 'Pastry', 'Makanan'] // Hanya nerima nilai dari daftar ini
     },
     harga: {
         type: Number,
@@ -23,7 +23,7 @@ const menuSchema = new mongoose.Schema({
     stok: {
         type: Number,
         required: true,
-        min: 0, // Aturan BR-02: Stok nggak boleh minus[cite: 6]
+        min: 0, // Aturan BR-02: Stok nggak boleh minus
         default: 0
     },
     tersedia: {
@@ -31,11 +31,9 @@ const menuSchema = new mongoose.Schema({
         default: false
     }
 }, {
-    // Fitur bawaan Mongoose untuk otomatis bikin field createdAt dan updatedAt[cite: 5]
+    // Fitur bawaan Mongoose untuk otomatis bikin field createdAt dan updatedAt
     timestamps: true 
 });
-
-// Posisi Alur: Klien Request -> Route -> Controller ngolah logika -> Model Mongoose INI memvalidasi -> Database MongoDB menyimpan
 
 // Export modelnya biar nanti bisa dipanggil sama Controller
 module.exports = mongoose.model('Menu', menuSchema);

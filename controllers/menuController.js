@@ -1,12 +1,12 @@
 // controllers/menuController.js
-const Menu = require('../models/Menu'); // Import Model (mandor/pintu ke database MongoDB)
+const Menu = require('../models/Menu'); // Import Model (pintu ke database MongoDB)
 
-// 1. Koki Pertama: Menangani pembuatan menu baru (POST)[cite: 120]
+// 1. Menangani pembuatan menu baru (POST)
 const createMenu = async (req, res) => {
     try {
         let { nama, kategori, harga, stok, tersedia } = req.body;
 
-        // Aturan Bisnis: Harga & Stok tidak boleh negatif[cite: 6]
+        // Aturan Bisnis: Harga & Stok tidak boleh negatif
         if (harga < 0 || stok < 0) {
             return res.status(400).json({
                 success: false,
@@ -14,19 +14,19 @@ const createMenu = async (req, res) => {
             });
         }
 
-        // Aturan Bisnis: Otomatisasi status ketersediaan[cite: 6]
+        // Aturan Bisnis: Otomatisasi status ketersediaan
         if (stok === 0) {
             tersedia = false;
         } else if (stok > 0 && tersedia === undefined) {
             tersedia = true;
         }
 
-        // Simpan data permanen ke database MongoDB lewat Model Mongoose[cite: 117]
+        // Simpan data permanen ke database MongoDB lewat Model Mongoose
         const newMenu = await Menu.create({
             nama, kategori, harga, stok, tersedia
         });
 
-        // Respon sukses (HTTP 201 Created)[cite: 91]
+        // Respon sukses (HTTP 201 Created)
         res.status(201).json({
             success: true,
             message: "Menu berhasil ditambahkan",
@@ -34,7 +34,7 @@ const createMenu = async (req, res) => {
         });
 
     } catch (error) {
-        // Penanganan galat validasi skema[cite: 12]
+        // Penanganan galat validasi skema
         res.status(400).json({
             success: false,
             message: error.message
@@ -42,13 +42,13 @@ const createMenu = async (req, res) => {
     }
 };
 
-// 2. Koki Kedua: Menangani pengambilan seluruh daftar menu (GET)[cite: 120]
+// 2. Menangani pengambilan seluruh daftar menu (GET)
 const getAllMenu = async (req, res) => {
     try {
-        // Mengambil seluruh dokumen dari koleksi 'menus' di MongoDB[cite: 124]
+        // Mengambil seluruh dokumen dari koleksi 'menus' di MongoDB
         const menus = await Menu.find();
 
-        // Respon sukses (HTTP 200 OK)[cite: 91]
+        // Respon sukses (HTTP 200 OK)
         res.status(200).json({
             success: true,
             count: menus.length,
@@ -56,7 +56,7 @@ const getAllMenu = async (req, res) => {
         });
 
     } catch (error) {
-        // Penanganan galat internal server (HTTP 500)[cite: 91]
+        // Penanganan error internal server (HTTP 500)
         res.status(500).json({
             success: false,
             message: error.message
@@ -64,7 +64,7 @@ const getAllMenu = async (req, res) => {
     }
 };
 
-// 3. Koki Ketiga: Menangani Update Menu Berdasarkan ID (PUT/PATCH)
+// 3. Menangani Update Menu Berdasarkan ID (PUT/PATCH)
 const updateMenu = async (req, res) => {
     try {
         const { id } = req.params; // Mengambil ID dari Path Parameter URL
@@ -110,5 +110,4 @@ const deleteMenu = async (req, res) => {
     }
 };
 
-// Jangan lupa daftarkan kedua fungsi baru ini di module.exports paling bawah!
 module.exports = { createMenu, getAllMenu, updateMenu, deleteMenu };

@@ -9,14 +9,14 @@ const PORT = 5000;
 // Middleware: biar server kita ngerti kalau dikirimi data berbentuk JSON
 app.use(express.json());
 
-// 1. Import router yang baru aja lu bikin
+// 1. Import router
 const menuRoutes = require('./routes/menuRoutes');
 
 // 2. Daftarin router-nya. 
-// Mulai sekarang, semua request klien yang menuju awalan '/api' bakal dioper ke menuRoutes
+// Semua rute yang ada di menuRoutes.js akan diawal dengan '/api'
 app.use('/api', menuRoutes);
 
-// Route ngetes doang
+// Route testing
 app.get('/', (req, res) => {
     res.send('Server Kafe sudah jalan!');
 });
